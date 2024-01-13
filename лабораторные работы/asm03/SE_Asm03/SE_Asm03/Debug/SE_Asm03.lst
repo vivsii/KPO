@@ -1,0 +1,143 @@
+Microsoft (R) Macro Assembler Version 14.37.32822.0	    11/18/23 15:53:57
+SE_Asm03.asm						     Page 1 - 1
+
+
+				.586P													; система подкоманд(процессор Pentium)
+				.MODEL FLAT, STDCALL									; модель памяти, соглашение о вызове
+				includelib kernel32.lib									; подключаем библиотеку с функцией ExitProcess, компановщику: компоновать с kernel32								
+				includelib user32.lib
+
+				ExitProcess PROTO :DWORD								; прототип функции для завершения процесса Windows
+				MessageBoxA PROTO :DWORD, :DWORD, :DWORD, :DWORD		; прототип API-функции MessageBoxA(парам: слово без знака 4 байта)
+
+				.STACK 4096												;сегмент стека размером 4096 Мбайт
+
+ 00000000			.DATA													;сегмент данных
+ 00000000 10 20 30 40				myBytes		BYTE	10h, 20h, 30h, 40h
+ 00000004 008A 003B 0044			myWords		WORD	8Ah, 3Bh, 44h, 5Fh, 99h
+	   005F 0099
+ 0000000E 00000001				myDoubles	DWORD	1, 2, 3, 4, 5, 6, 7
+	   00000002
+	   00000003
+	   00000004
+	   00000005
+	   00000006
+	   00000007
+ 0000002A 00000000				SUM			DWORD   0
+
+ 0000002E C5 E2 F1 E5 E5			str0		db		"Евсеенко Виктория, курс 2, ПОИТ 4 ", 0			
+	   ED EA EE 20 C2
+	   E8 EA F2 EE F0
+	   E8 FF 2C 20 EA
+	   F3 F0 F1 20 32
+	   2C 20 CF CE C8
+	   D2 20 34 20 00
+ 00000051 CC E0 F1 F1 E8			str1		db		"Массив содержит 0 ", 0
+	   E2 20 F1 EE E4
+	   E5 F0 E6 E8 F2
+	   20 30 20 00
+ 00000064 CC E0 F1 F1 E8			str2		db		"Массив не содержит 0 ", 0
+	   E2 20 ED E5 20
+	   F1 EE E4 E5 F0
+	   E6 E8 F2 20 30
+	   20 00
+
+ 00000000			.CODE													
+ 00000000			main PROC												
+ 00000000			start:	
+ 00000000  BE 00000004 R			mov ESI, OFFSET myWords							;смещение myWords -> esi(косвенный операнд)
+ 00000005  66| 8B 46 04				mov AX, [ESI + 4]
+ 00000009  66| 8B 5E 02				mov BX, [ESI + 2]
+
+ 0000000D  BF 0000000E R			mov edi, OFFSET myDoubles						;смещение myDoubles -> edi(косвенный операнд)
+ 00000012  B9 00000007				mov ecx, 7										;счетчик
+ 00000017			CYCLE:													;метка перехода
+ 00000017  8B 07				mov eax, [edi]
+ 00000019  01 05 0000002A R			add SUM, eax
+ 0000001F  83 C7 04				add edi, type myDoubles
+ 00000022  E2 F3		loop CYCLE												;выполняет блок команд заданное кол во раз
+
+ 00000024  BF 0000000E R			mov edi, OFFSET myDoubles						;смещение myDoubles -> edi(косвенный операнд)
+ 00000029  B9 00000007				mov ecx, 7										;счетчик
+ 0000002E			CYCLE_2:
+ 0000002E  8B 07				mov eax, [edi]									;eax -> edi
+ 00000030  83 C7 04				add edi, type myDoubles							
+						
+ 00000033  83 F8 00				cmp eax, 0				
+ 00000036  74 07				jz  EXIT										;if eax
+
+ 00000038  83 F9 01				cmp ecx,1
+ 0000003B  74 26				jz  EXIT_2
+ 0000003D  E2 EF		loop CYCLE_2											;выполняет блок команд заданное кол во раз
+
+ 0000003F			EXIT:													
+ 0000003F  A1 0000002A R			mov eax, SUM									;загрузка в регистр eax(аккумулятор для промежуточных данных) значения переменной a
+ 00000044  BB 00000000				mov EBX, 0
+						invoke MessageBoxA, 0, offset str1, offset str0, 0	;встроенный макрос для вызова функции с прототипом, offset смещение метки данных относительно сегмента
+ 0000005C  6A 00				push 0											;код возврата процесса Windows (параметр ExitProcess)
+ 0000005E  E8 00000000 E			call ExitProcess								;так завершается любой процесс Windows
+
+
+ 00000063			EXIT_2:													
+ 00000063  A1 0000002A R			mov eax, SUM									;загрузка в регистр eax(аккумулятор для промежуточных данных) значения переменной SUM
+ 00000068  BB 00000001				mov EBX, 1
+						invoke MessageBoxA, 0, offset str2, offset str0, 0	;встроенный макрос для вызова функции с прототипом, offset смещение метки данных относительно сегмента
+ 00000080  6A 00				push 0											;код возврата процесса Windows (параметр ExitProcess)
+ 00000082  E8 00000000 E			call ExitProcess								;так завершается любой процесс Windows
+
+ 00000087			main ENDP												;конец процедуры 
+
+				end main												;последняя инструкция программы, в ней указывается точка входа в программу 
+Microsoft (R) Macro Assembler Version 14.37.32822.0	    11/18/23 15:53:57
+SE_Asm03.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000007A Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000087 Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+ExitProcess  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+MessageBoxA  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000087 Public STDCALL
+  start  . . . . . . . . . . . .	L Near	 00000000 _TEXT	
+  CYCLE  . . . . . . . . . . . .	L Near	 00000017 _TEXT	
+  CYCLE_2  . . . . . . . . . . .	L Near	 0000002E _TEXT	
+  EXIT . . . . . . . . . . . . .	L Near	 0000003F _TEXT	
+  EXIT_2 . . . . . . . . . . . .	L Near	 00000063 _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000003h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+SUM  . . . . . . . . . . . . . .	DWord	 0000002A _DATA	
+myBytes  . . . . . . . . . . . .	Byte	 00000000 _DATA	
+myDoubles  . . . . . . . . . . .	DWord	 0000000E _DATA	
+myWords  . . . . . . . . . . . .	Word	 00000004 _DATA	
+str0 . . . . . . . . . . . . . .	Byte	 0000002E _DATA	
+str1 . . . . . . . . . . . . . .	Byte	 00000051 _DATA	
+str2 . . . . . . . . . . . . . .	Byte	 00000064 _DATA	
+
+	   0 Warnings
+	   0 Errors
