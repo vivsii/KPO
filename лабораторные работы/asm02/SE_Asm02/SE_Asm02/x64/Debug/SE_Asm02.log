@@ -1,0 +1,37 @@
+﻿Сборка начата 24.10.2023 12:31:25.
+Уровень детализации журнала: Normal.     1>Проект "C:\Users\Роман\Desktop\SE_Asm02\SE_Asm02\SE_Asm02.vcxproj" в узле 2 (целевые объекты Build).
+     1>PrepareForBuild:
+         Создание каталога "C:\Users\Роман\Desktop\SE_Asm02\x64\Debug\".
+         Создание каталога "x64\Debug\SE_Asm02.tlog\".
+       InitializeBuildStatus:
+         Создание "x64\Debug\SE_Asm02.tlog\unsuccessfulbuild", так как было задано "AlwaysCreate".
+         Обращение к "x64\Debug\SE_Asm02.tlog\unsuccessfulbuild".
+       _MASM:
+         Assembling SE_Asm02.asm...
+         cmd.exe /C "C:\Users\Роман\AppData\Local\Temp\tmp110adeac2d8c461c84c6f28c065223fe.cmd"
+         ml64.exe /c /nologo /Zi /Fo"x64\Debug\SE_Asm02.obj" /Fl"x64\Debug\\" /W3 /errorReport:prompt  /TaSE_Asm02.asm
+     1>SE_Asm02.asm(1): error A2008: syntax error : .
+     1>SE_Asm02.asm(2): error A2008: syntax error : .
+     1>SE_Asm02.asm(8): error A2008: syntax error : .
+     1>SE_Asm02.asm(28): error A2008: syntax error : MessageBoxA
+     1>SE_Asm02.asm(34): error A2008: syntax error : main
+     1>SE_Asm02.asm(34): error A2088: END directive required at end of file
+     1>C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Microsoft\VC\v170\BuildCustomizations\masm.targets(70,5): error MSB3721: выход из команды "ml64.exe /c /nologo /Zi /Fo"x64\Debug\SE_Asm02.obj" /Fl"x64\Debug\\" /W3 /errorReport:prompt  /TaSE_Asm02.asm" с кодом "1".
+     1>Сборка проекта "C:\Users\Роман\Desktop\SE_Asm02\SE_Asm02\SE_Asm02.vcxproj" завершена (целевые объекты Build) с ошибкой.
+
+Ошибка сборки.
+
+       "C:\Users\Роман\Desktop\SE_Asm02\SE_Asm02\SE_Asm02.vcxproj" (целевой объект Build ) (1) ->
+       (Целевой объект _MASM) -> 
+         SE_Asm02.asm(1): error A2008: syntax error : .
+         SE_Asm02.asm(2): error A2008: syntax error : .
+         SE_Asm02.asm(8): error A2008: syntax error : .
+         SE_Asm02.asm(28): error A2008: syntax error : MessageBoxA
+         SE_Asm02.asm(34): error A2008: syntax error : main
+         SE_Asm02.asm(34): error A2088: END directive required at end of file
+         C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Microsoft\VC\v170\BuildCustomizations\masm.targets(70,5): error MSB3721: выход из команды "ml64.exe /c /nologo /Zi /Fo"x64\Debug\SE_Asm02.obj" /Fl"x64\Debug\\" /W3 /errorReport:prompt  /TaSE_Asm02.asm" с кодом "1".
+
+    Предупреждений: 0
+    Ошибок: 7
+
+Прошло времени 00:00:00.41

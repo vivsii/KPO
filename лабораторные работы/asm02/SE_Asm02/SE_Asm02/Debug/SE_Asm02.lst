@@ -1,0 +1,346 @@
+Microsoft (R) Macro Assembler Version 14.37.32822.0	    12/01/23 11:59:34
+SE_Asm02.asm						     Page 1 - 1
+
+
+				.586
+				.MODEL flat, stdcall 
+
+				includelib kernel32.lib 
+				includelib libucrt.lib
+				includelib D:\уник\SAE2019\DebugDebug\Lib.lib
+
+				ExitProcess PROTO: DWORD
+				EXTRN ToConsoleSTR: PROC
+				EXTRN ToConsoleNUM: PROC
+				EXTRN negative: PROC
+				EXTRN powb: PROC
+				EXTRN OVERFLOWEXCEPTION : PROC
+				EXTRN NULLEXCEPTION: PROC
+
+				.STACK 4096
+ 00000000			.CONST
+ 00000000 D1 F2 F0 EE EA		L1 byte 'Строка из функции Fstr',0
+	   E0 20 E8 E7 20
+	   F4 F3 ED EA F6
+	   E8 E8 20 46 73
+	   74 72 00
+ 00000017 00000005			L2 sdword 5
+ 0000001B 0000001B			L3 sdword 27
+ 0000001F 01				L4 byte 1
+ 00000020 00000004			L5 sdword 4
+ 00000024 0000007E			L6 sdword 126
+ 00000028 4D 61 69 6E 63		L7 byte 'Mainc',0
+	   00
+ 0000002E 00000002			L8 sdword 2
+ 00000032 00000032			L9 sdword 50
+ 00000036 00000006			L10 sdword 6
+ 0000003A 41 42 43 44 65		L11 byte 'ABCDe',0
+	   00
+ 00000040 00000028			L12 sdword 40
+ 00000000			.DATA
+ 00000000 00000000			Fstrstr dword ?
+ 00000004 00000000			Fmathrezult sdword 0
+ 00000008 00				mainbl byte 0
+ 00000009 00000000			maina sdword 0
+ 0000000D 00000000			mainb sdword 0
+ 00000011 00000000			mainc dword ?
+ 00000015 00000000			mains dword ?
+ 00000000			.CODE
+ 00000000			Fstr PROC Fstrs: dword
+ 00000003  8D 05 00000000 R		LEA EAX, L1
+ 00000009  50				push EAX
+ 0000000A  58				pop EAX
+ 0000000B  A3 00000000 R		MOV Fstrstr, EAX
+ 00000010  B8 00000000			MOV EAX, 0
+ 00000015  8B 45 08			MOV EAX, Fstrs
+ 00000018  50				push EAX
+ 00000019  E8 00000000 E		call ToConsoleSTR
+
+ 0000001E  B8 00000000			MOV EAX, 0
+ 00000023  A1 00000000 R		MOV EAX, Fstrstr
+ 00000028  50				push EAX
+ 00000029  58				pop EAX
+					ret
+ 0000002E			Fstr ENDP
+
+ 0000002E			Fmath PROC Fmathx: sdword, Fmathy: sdword
+ 00000031  8B 45 0C			MOV EAX, Fmathy
+ 00000034  50				push EAX
+ 00000035  8B 45 08			MOV EAX, Fmathx
+ 00000038  50				push EAX
+ 00000039  E8 00000000 E		call powb
+ 0000003E  50				push EAX
+
+ 0000003F  6A 05			push 5
+ 00000041  B8 00000000			MOV EAX, 0
+ 00000046  5A				pop EDX
+ 00000047  58				pop EAX
+ 00000048  2B C2			SUB EAX, EDX
+ 0000004A  50				push EAX
+
+
+ 0000004B  6A 05			push 5
+ 0000004D  B8 00000000			MOV EAX, 0
+ 00000052  5A				pop EDX
+ 00000053  58				pop EAX
+ 00000054  0F AF C2			IMUL EAX, EDX
+ 00000057  50				push EAX
+
+
+ 00000058  58				pop EAX
+ 00000059  83 F8 7F			cmp EAX,127
+ 0000005C  7F 07			jg OVERF10
+ 0000005E  83 F8 80			cmp EAX,-128
+ 00000061  7C 02			jl OVERF10
+ 00000063  EB 0E			jmp OVERFEND10
+ 00000065					OVERF10:
+ 00000065  6A 0A			push 10
+ 00000067  E8 00000000 E		call OVERFLOWEXCEPTION
+ 0000006C  6A 00			push 0
+ 0000006E  E8 00000000 E		call ExitProcess
+ 00000073					OVERFEND10:
+ 00000073  A3 00000004 R		MOV Fmathrezult, EAX
+ 00000078  6A 1B			push 27
+ 0000007A  E8 00000000 E		call negative
+ 0000007F  50				push EAX
+
+ 00000080  E8 00000000 E		call ToConsoleNUM
+
+ 00000085  B8 00000000			MOV EAX, 0
+ 0000008A  A1 00000004 R		MOV EAX, Fmathrezult
+ 0000008F  50				push EAX
+ 00000090  58				pop EAX
+					ret
+ 00000095			Fmath ENDP
+
+ 00000095			main PROC
+ 00000095  6A 01			push 1
+ 00000097  58				pop EAX
+ 00000098  A2 00000008 R		MOV mainbl, AL
+ 0000009D  6A 04			push 4
+ 0000009F  6A 7E			push 126
+ 000000A1  B8 00000000			MOV EAX, 0
+ 000000A6  5A				pop EDX
+ 000000A7  58				pop EAX
+ 000000A8  03 C2			ADD EAX, EDX
+ 000000AA  50				push EAX
+
+
+ 000000AB  58				pop EAX
+ 000000AC  83 F8 7F			cmp EAX,127
+ 000000AF  7F 07			jg OVERF18
+ 000000B1  83 F8 80			cmp EAX,-128
+ 000000B4  7C 02			jl OVERF18
+ 000000B6  EB 0E			jmp OVERFEND18
+ 000000B8					OVERF18:
+ 000000B8  6A 12			push 18
+ 000000BA  E8 00000000 E		call OVERFLOWEXCEPTION
+ 000000BF  6A 00			push 0
+ 000000C1  E8 00000000 E		call ExitProcess
+ 000000C6					OVERFEND18:
+ 000000C6  A3 00000009 R		MOV maina, EAX
+ 000000CB  8D 05 00000028 R		LEA EAX, L7
+ 000000D1  50				push EAX
+ 000000D2  58				pop EAX
+ 000000D3  A3 00000011 R		MOV mainc, EAX
+ 000000D8  6A 02			push 2
+ 000000DA  A1 00000009 R		MOV EAX, maina
+ 000000DF  50				push EAX
+ 000000E0  E8 FFFFFF49			call Fmath
+ 000000E5  50				push EAX
+
+ 000000E6  58				pop EAX
+ 000000E7  83 F8 7F			cmp EAX,127
+ 000000EA  7F 07			jg OVERF21
+ 000000EC  83 F8 80			cmp EAX,-128
+ 000000EF  7C 02			jl OVERF21
+ 000000F1  EB 0E			jmp OVERFEND21
+ 000000F3					OVERF21:
+ 000000F3  6A 15			push 21
+ 000000F5  E8 00000000 E		call OVERFLOWEXCEPTION
+ 000000FA  6A 00			push 0
+ 000000FC  E8 00000000 E		call ExitProcess
+ 00000101					OVERFEND21:
+ 00000101  A3 0000000D R		MOV mainb, EAX
+ 00000106  B8 00000000			MOV EAX, 0
+ 0000010B  A1 0000000D R		MOV EAX, mainb
+ 00000110  50				push EAX
+ 00000111  6A 32			push 50
+ 00000113  5B				pop EBX
+ 00000114  BA 00000000			mov EDX,0
+ 00000119  58				pop EAX
+ 0000011A  83 FB 00			cmp EBX,0
+ 0000011D  74 02			jz nullExcept0
+ 0000011F  EB 0E			jmp last0
+ 00000121				nullExcept0:
+ 00000121  6A 16			push 22
+ 00000123  E8 00000000 E		call NULLEXCEPTION
+ 00000128  6A 00			push 0
+ 0000012A  E8 00000000 E		call ExitProcess
+ 0000012F				last0:
+ 0000012F  F7 FB			idiv EBX
+ 00000131  52				push EDX
+
+ 00000132  6A 06			push 6
+
+ 00000134  5B				pop EBX
+ 00000135  58				pop EAX
+ 00000136  3B C3			cmp EAX, EBX
+ 00000138  75 04			jne ELSEPOINT22
+ 0000013A  6A 01			push 1
+ 0000013C  EB 02			jmp ENDPOINT22
+ 0000013E				ELSEPOINT22:
+ 0000013E  6A 00			push 0
+ 00000140				ENDPOINT22:
+
+ 00000140  58				pop EAX
+ 00000141  83 F8 01			cmp EAX, 1
+ 00000144  75 0C			jne ELSE22
+ 00000146  8D 05 0000003A R		LEA EAX, L11
+ 0000014C  50				push EAX
+ 0000014D  E8 00000000 E		call ToConsoleSTR
+
+ 00000152				ELSE22:
+ 00000152  B8 00000000			MOV EAX, 0
+ 00000157  A0 00000008 R		MOV AL, mainbl
+ 0000015C  50				push EAX
+ 0000015D  6A 01			push 1
+
+ 0000015F  5B				pop EBX
+ 00000160  58				pop EAX
+ 00000161  3B C3			cmp EAX, EBX
+ 00000163  75 04			jne ELSEPOINT26
+ 00000165  6A 01			push 1
+ 00000167  EB 02			jmp ENDPOINT26
+ 00000169				ELSEPOINT26:
+ 00000169  6A 00			push 0
+ 0000016B				ENDPOINT26:
+
+ 0000016B  58				pop EAX
+ 0000016C  83 F8 01			cmp EAX, 1
+ 0000016F  75 31			jne ELSE26
+ 00000171  B8 00000000			MOV EAX, 0
+ 00000176  A1 0000000D R		MOV EAX, mainb
+ 0000017B  50				push EAX
+ 0000017C  6A 28			push 40
+ 0000017E  5B				pop EBX
+ 0000017F  BA 00000000			mov EDX,0
+ 00000184  58				pop EAX
+ 00000185  83 FB 00			cmp EBX,0
+ 00000188  74 02			jz nullExcept1
+ 0000018A  EB 0E			jmp last1
+ 0000018C				nullExcept1:
+ 0000018C  6A 1C			push 28
+ 0000018E  E8 00000000 E		call NULLEXCEPTION
+ 00000193  6A 00			push 0
+ 00000195  E8 00000000 E		call ExitProcess
+ 0000019A				last1:
+ 0000019A  F7 FB			idiv EBX
+ 0000019C  52				push EDX
+
+ 0000019D  E8 00000000 E		call ToConsoleNUM
+
+ 000001A2				ELSE26:
+ 000001A2  A1 00000011 R		MOV EAX, mainc
+ 000001A7  50				push EAX
+ 000001A8  E8 FFFFFE53			call Fstr
+ 000001AD  50				push EAX
+
+ 000001AE  58				pop EAX
+ 000001AF  A3 00000015 R		MOV mains, EAX
+ 000001B4  B8 00000000			MOV EAX, 0
+ 000001B9  A1 00000015 R		MOV EAX, mains
+ 000001BE  50				push EAX
+ 000001BF  E8 00000000 E		call ToConsoleSTR
+
+ 000001C4  6A 00			push 0
+ 000001C6  E8 00000000 E		call ExitProcess
+ 000001CB			main ENDP
+				end main
+Microsoft (R) Macro Assembler Version 14.37.32822.0	    12/01/23 11:59:34
+SE_Asm02.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CONST  . . . . . . . . . . . . .	32 Bit	 00000044 Para	  Public  'CONST'	 ReadOnly
+FLAT . . . . . . . . . . . . . .	GROUP
+STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000019 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 000001CB Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+ExitProcess  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+Fmath  . . . . . . . . . . . . .	P Near	 0000002E _TEXT	Length= 00000067 Public STDCALL
+  Fmathx . . . . . . . . . . . .	DWord	 bp + 00000008
+  Fmathy . . . . . . . . . . . .	DWord	 bp + 0000000C
+  OVERF10  . . . . . . . . . . .	L Near	 00000065 _TEXT	
+  OVERFEND10 . . . . . . . . . .	L Near	 00000073 _TEXT	
+Fstr . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000002E Public STDCALL
+  Fstrs  . . . . . . . . . . . .	DWord	 bp + 00000008
+main . . . . . . . . . . . . . .	P Near	 00000095 _TEXT	Length= 00000136 Public STDCALL
+  OVERF18  . . . . . . . . . . .	L Near	 000000B8 _TEXT	
+  OVERFEND18 . . . . . . . . . .	L Near	 000000C6 _TEXT	
+  OVERF21  . . . . . . . . . . .	L Near	 000000F3 _TEXT	
+  OVERFEND21 . . . . . . . . . .	L Near	 00000101 _TEXT	
+  nullExcept0  . . . . . . . . .	L Near	 00000121 _TEXT	
+  last0  . . . . . . . . . . . .	L Near	 0000012F _TEXT	
+  ELSEPOINT22  . . . . . . . . .	L Near	 0000013E _TEXT	
+  ENDPOINT22 . . . . . . . . . .	L Near	 00000140 _TEXT	
+  ELSE22 . . . . . . . . . . . .	L Near	 00000152 _TEXT	
+  ELSEPOINT26  . . . . . . . . .	L Near	 00000169 _TEXT	
+  ENDPOINT26 . . . . . . . . . .	L Near	 0000016B _TEXT	
+  nullExcept1  . . . . . . . . .	L Near	 0000018C _TEXT	
+  last1  . . . . . . . . . . . .	L Near	 0000019A _TEXT	
+  ELSE26 . . . . . . . . . . . .	L Near	 000001A2 _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000003h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+Fmathrezult  . . . . . . . . . .	DWord	 00000004 _DATA	
+Fstrstr  . . . . . . . . . . . .	DWord	 00000000 _DATA	
+L10  . . . . . . . . . . . . . .	DWord	 00000036 CONST	
+L11  . . . . . . . . . . . . . .	Byte	 0000003A CONST	
+L12  . . . . . . . . . . . . . .	DWord	 00000040 CONST	
+L1 . . . . . . . . . . . . . . .	Byte	 00000000 CONST	
+L2 . . . . . . . . . . . . . . .	DWord	 00000017 CONST	
+L3 . . . . . . . . . . . . . . .	DWord	 0000001B CONST	
+L4 . . . . . . . . . . . . . . .	Byte	 0000001F CONST	
+L5 . . . . . . . . . . . . . . .	DWord	 00000020 CONST	
+L6 . . . . . . . . . . . . . . .	DWord	 00000024 CONST	
+L7 . . . . . . . . . . . . . . .	Byte	 00000028 CONST	
+L8 . . . . . . . . . . . . . . .	DWord	 0000002E CONST	
+L9 . . . . . . . . . . . . . . .	DWord	 00000032 CONST	
+NULLEXCEPTION  . . . . . . . . .	L Near	 00000000 FLAT	External STDCALL
+OVERFLOWEXCEPTION  . . . . . . .	L Near	 00000000 FLAT	External STDCALL
+ToConsoleNUM . . . . . . . . . .	L Near	 00000000 FLAT	External STDCALL
+ToConsoleSTR . . . . . . . . . .	L Near	 00000000 FLAT	External STDCALL
+maina  . . . . . . . . . . . . .	DWord	 00000009 _DATA	
+mainbl . . . . . . . . . . . . .	Byte	 00000008 _DATA	
+mainb  . . . . . . . . . . . . .	DWord	 0000000D _DATA	
+mainc  . . . . . . . . . . . . .	DWord	 00000011 _DATA	
+mains  . . . . . . . . . . . . .	DWord	 00000015 _DATA	
+negative . . . . . . . . . . . .	L Near	 00000000 FLAT	External STDCALL
+powb . . . . . . . . . . . . . .	L Near	 00000000 FLAT	External STDCALL
+
+	   0 Warnings
+	   0 Errors
