@@ -1,0 +1,30 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppClean.targets(77,5): warning : Отказано в доступе по пути "d:\уник\кпо\лабораторные работы\lab20\se_lab20\debug\se_lab20.exe".
+  Error.cpp
+  FST.cpp
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\FST.cpp(62,17): warning C4267: инициализация: преобразование из "size_t" в "short"; возможна потеря данных
+  GRB.cpp
+  In.cpp
+  IT.cpp
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\IT.cpp(79,32): warning C4267: =: преобразование из "size_t" в "unsigned char"; возможна потеря данных
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\IT.cpp(99,32): warning C4267: =: преобразование из "size_t" в "unsigned char"; возможна потеря данных
+  LexAnalysis.cpp
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\LexAnalysis.cpp(80,17): warning C4305: =: усечение из "int" в "char"
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\LexAnalysis.cpp(80,17): warning C4309: =: усечение константного значения
+  Log.cpp
+  LT.cpp
+  MFST.cpp
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\MFST.cpp(236,66): warning C4267: =: преобразование из "size_t" в "short"; возможна потеря данных
+  Out.cpp
+  Parm.cpp
+  PolishNotation.cpp
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\PolishNotation.cpp(74,21): warning C4129: @: неизвестная escape-последовательность
+  SE_lab20.cpp
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\SE_lab20.cpp(35,28): warning C4101: lt_position: неиспользованная локальная переменная
+  Создание кода...
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\PolishNotation.cpp(16): warning C4715: PolishNotation::Stack::push: значение возвращается не при всех путях выполнения
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\PolishNotation.cpp(28): warning C4715: PolishNotation::Stack::push: значение возвращается не при всех путях выполнения
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\PolishNotation.cpp(40): warning C4172: возвращение адреса локальной или временной переменной : temp
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\LT.cpp(23): warning C4715: LT::LexTable::GetEntry: значение возвращается не при всех путях выполнения
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\IT.cpp(160): warning C4715: IT::IdTable::GetEntry: значение возвращается не при всех путях выполнения
+D:\уник\кпо\лабораторные работы\lab20\SE_lab20\SE_lab20\IT.cpp(192): warning C4172: возвращение адреса локальной или временной переменной : buffer
+  SE_lab20.vcxproj -> D:\уник\кпо\лабораторные работы\lab20\SE_lab20\Debug\SE_lab20.exe
