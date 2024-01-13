@@ -1,0 +1,14 @@
+﻿  check_format01.cpp
+D:\уник\кпо\лабораторные работы\лаба 3\SE_lab03\SE_lab03\SE_lab03\check_format01.cpp(6,20): warning C4018: <: несоответствие типов со знаком и без знака
+  check_format1.cpp
+  get_birthday_date.cpp
+  holidays.cpp
+  if_leap_year.cpp
+  month_def.cpp
+  raznDays.cpp
+  sequent_numb.cpp
+  SE_lab03.cpp
+  substr.cpp
+  Создание кода...
+D:\уник\кпо\лабораторные работы\лаба 3\SE_lab03\SE_lab03\SE_lab03\get_birthday_date.cpp(31): warning C4715: get_birthday: значение возвращается не при всех путях выполнения
+  SE_lab03.vcxproj -> D:\уник\кпо\лабораторные работы\лаба 3\SE_lab03\SE_lab03\Debug\SE_lab03.exe
